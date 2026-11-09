@@ -64,6 +64,12 @@ async function getSpaceImages() {
 
 	try {
 		const response = await fetch(apiUrl);
+		const contentType = response.headers.get('content-type');
+
+		if (!contentType || !contentType.includes('application/json')) {
+			throw new Error('The APOD server returned a webpage instead of data. Run "npm start" and open http://localhost:3000.');
+		}
+
 		const apodData = await response.json();
 
 		if (!response.ok) {
