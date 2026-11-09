@@ -25,3 +25,15 @@ npm start
 ```
 
 Open http://localhost:3000 in your browser. Do not put a real API key in `js/script.js` or commit the `.env` file. Use the Node server rather than a static preview such as VS Code Live Server so requests go through the backend.
+
+## Deploy to Render
+
+The repository includes a Render Blueprint in `render.yaml`. To deploy the app:
+
+1. Push the repository to GitHub.
+2. In Render, choose **New → Blueprint** and connect this repository.
+3. When prompted, enter your NASA API key for the `NASA_API_KEY` environment variable. You can get a key from [api.nasa.gov](https://api.nasa.gov/).
+4. Create the web service and wait for its deployment to finish.
+5. Open the public URL shown in the Render dashboard.
+
+Keep the API key in Render's environment settings. Do not add it to `render.yaml`, browser JavaScript, or the repository. The free service may spin down after inactivity, so the first request after a pause can take longer.
