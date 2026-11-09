@@ -142,3 +142,27 @@ button:hover {
   font-size: 48px;
   margin-bottom: 20px;
 }
+
+.loading-message {
+  flex: 1 1 100%;
+  padding: 40px;
+  color: #666;
+  text-align: center;
+}
+
+.loading-message p + p {
+  margin-top: 16px;
+}
+
+/* NASA logo at the bottom of the page */
+.site-footer {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.footer-logo {
+  display: block;
+  width: min(100%, 400px);
+  height: auto;
+}

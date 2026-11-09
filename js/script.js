@@ -8,6 +8,14 @@ const endInput = document.getElementById('endDate');
 // - Restrict dates to NASA's image archive (starting from 1995)
 setupDateInputs(startInput, endInput);
 
+const spaceFacts = [
+	'A day on Venus is longer than its year.',
+	'Light from the Sun takes about 8 minutes to reach Earth.',
+	'Jupiter is the largest planet in our solar system.',
+	'The Moon moves a little farther from Earth each year.',
+	'Neutron stars are so dense that a small amount of their material would weigh billions of tons on Earth.'
+];
+
 // Add each APOD result to the gallery.
 function displaySpaceImages(apodItems) {
 	const gallery = document.getElementById('gallery');
@@ -60,7 +68,24 @@ async function getSpaceImages() {
 	apiUrl.searchParams.set('start_date', startDate);
 	apiUrl.searchParams.set('end_date', endDate);
 
-	gallery.textContent = 'Loading space images...';
+	const loadingMessage = document.createElement('div');
+	const loadingText = document.createElement('p');
+	const factText = document.createElement('p');
+	let factIndex = 0;
+
+	loadingMessage.className = 'loading-message';
+	loadingMessage.setAttribute('role', 'status');
+	loadingMessage.setAttribute('aria-live', 'polite');
+	loadingText.textContent = 'Loading space images...';
+	factText.textContent = `Space fact: ${spaceFacts[factIndex]}`;
+	loadingMessage.append(loadingText, factText);
+	gallery.replaceChildren(loadingMessage);
+
+	// Show a new fact every few seconds while the APOD request is running.
+	const factInterval = window.setInterval(() => {
+		factIndex = (factIndex + 1) % spaceFacts.length;
+		factText.textContent = `Space fact: ${spaceFacts[factIndex]}`;
+	}, 2500);
 
 	try {
 		const response = await fetch(apiUrl);
@@ -81,6 +106,8 @@ async function getSpaceImages() {
 		displaySpaceImages(apodItems);
 	} catch (error) {
 		gallery.textContent = `Unable to load APOD data: ${error.message}`;
+	} finally {
+		window.clearInterval(factInterval);
 	}
 }
 
